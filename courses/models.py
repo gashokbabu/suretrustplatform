@@ -1,0 +1,37 @@
+from django.db import models
+from trainee.models import Student
+from trainer.models import Teacher
+# Create your models here.
+
+class Course(models.Model):
+    course_name = models.CharField(max_length=100,primary_key=True)
+    prerequisites = models.CharField(max_length=256)
+    syllabus = models.FileField(upload_to='syllabus_files')
+    date = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.course_name}'
+
+class Batch(models.Model):    
+    batch_name = models.CharField(max_length=100)
+    course = models.ForeignKey(Course,on_delete=models.SET_NULL,null=True)
+    teacher = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True)
+    students = models.ManyToManyField(Student)
+    limit = models.IntegerField(default=40)
+    date = models.DateField(auto_now_add=True)
+    start_time = models.TimeField(null=True)
+    end_time = models.TimeField(null=True)
+    def __str__(self):
+        return f'{self.course} {self.batch_name}'
+
+class Post(models.Model):
+    batch = models.ForeignKey(Batch,on_delete=models.SET_NULL,null=True)
+    type = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    file = models.FileField(null=True,blank=True)
+    date_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
