@@ -48,6 +48,14 @@ http://127.0.0.1:8000/courses/course/{course_name}   --delete request with teach
 
  If you want to know all the batches that he is dealing with then 
  http://127.0.0.1:8000/courses/batch/   --get request  and pass the teacher token allong with that
+ body data
+ {
+    course_name=course_name
+ }
+ eg:
+ {
+    "course_name":"python2"
+}
 
  If you want to know about a particular batch 
  http://127.0.0.1:8000/courses/batch/{batch_id}/  --get request with the teacher token
@@ -67,10 +75,10 @@ http://127.0.0.1:8000/courses/course/{course_name}   --delete request with teach
  http://127.0.0.1:8000/courses/posts/             --post request with teacher token
  body data is
  {
-     "title":"your title",
-     "content":"your content",
-     "file":"optional",
-     "batch":batch_id
+    "title":"your title",
+    "content":"your content",
+    "file":"optional",
+    "batch":batch_id
  } 
 
  if he want to update any post                    

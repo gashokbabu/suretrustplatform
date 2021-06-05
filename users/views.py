@@ -60,7 +60,7 @@ class UserViewset(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated,])
-def yourCourses(request):
+def yourBatches(request):
     user = request.user
     b = Batch.objects.filter(students__user=user)
     serializer = BatchSerializer(b,many=True)
@@ -94,7 +94,7 @@ def add_to_course(request,name):
             new_batch = Batch.objects.create(course=course,batch_name=b[len(b)-1].batch_name[0:6]+str(x))
             new_batch.students.add(request.user.student)
             new_batch.save()
-            return Response({'success':f'student is added to {new_batch.batch_name}'})
+            return Response({'success':f'student is added to new {new_batch.batch_name}'})
         else:
             b[len(b)-1].students.add(request.user.student)
             return Response({'success':f'student is added to {b[len(b)-1].batch_name}'})
@@ -115,7 +115,7 @@ def add_to_course(request,name):
 @api_view(['POST'])
 def get_token(request):
     print(request.data)
-    u = EmailAddress.objects.filter(email=request.data['email']).exists()
+    u = User.objects.filter(email=request.data['email']).exists()
     if u==True:
         user = EmailAddress.objects.get(email=request.data['email'])
         if user.verified==True:

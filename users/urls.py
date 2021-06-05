@@ -9,7 +9,7 @@ router = routers.DefaultRouter()
 router.register(r'', UserViewset)
 
 urlpatterns = [
-    path('your-batches/',yourCourses),
+    path('your-batches/',yourBatches),
     path('batch-posts/<int:id>/',batch_posts),
     path('add-to-course/<str:name>/',add_to_course),
     path('get-token/',get_token),

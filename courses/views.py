@@ -20,7 +20,8 @@ class BatchViewset(viewsets.ModelViewSet):
     serializer_class = BatchSerializer
     def get_queryset(self):
         user = self.request.user
-        return Batch.objects.filter(teacher__user=self.request.user)
+        course_name = self.request.data['course_name']
+        return Batch.objects.filter(teacher__user=self.request.user,course=course_name)
 
 class PostViewset(viewsets.ModelViewSet):
     permission_classes=[TrainerAccessPermission|ReadOnly]
@@ -28,5 +29,9 @@ class PostViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         print(self.request.data)
         return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=1).order_by('date_time')
+
+
+def studentsOfBatch(request):
+    pass
 
 

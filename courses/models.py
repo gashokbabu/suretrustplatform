@@ -35,3 +35,14 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+
+class Grade(models.Model):
+    batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+    assiment_name = models.CharField(max_length=256)
+    grading = models.CharField(max_length=10,null=True,blank=True)
+    file = models.FileField(upload_to='assignments',null=True,blank=True)
+    marks = models.IntegerField(null=True,blank=True)
+    def _str_(self):
+        return self.assiment_name
