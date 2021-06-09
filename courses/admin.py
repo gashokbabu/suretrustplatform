@@ -13,7 +13,7 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ('course_name','prerequisites')
     list_per_page = 10
 class BatchAdmin(admin.ModelAdmin):
-    list_display = ['batch_name','course','teacher']
+    list_display = ['id','batch_name','course','teacher']
     list_filter = ('batch_name','course','teacher__name')
     search_fields = ('batch_name','course')
     list_per_page = 10

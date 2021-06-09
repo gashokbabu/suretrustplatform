@@ -4,7 +4,8 @@ from rest_framework import routers
 from .views import *
 
 router = routers.DefaultRouter()
-router.register(r'', TraineeViewset)
+router.register('contactus', ContactUsViewset,basename='ContactUs'),
+router.register('student', TraineeViewset),
 
 urlpatterns = [
     path('',include(router.urls)),

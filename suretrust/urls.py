@@ -24,8 +24,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('get-token/', get_token),
-    path('trainer/',include('trainer.urls')),
-    path('trainee/',include('trainee.urls')),
+    path('teacher/',include('trainer.urls')),
+    path('student/',include('trainee.urls')),
     path('courses/',include('courses.urls')),
     path('users/',include('users.urls')),
 ]

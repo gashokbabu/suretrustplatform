@@ -4,7 +4,7 @@ from trainer.models import Teacher
 # Create your models here.
 
 class Course(models.Model):
-    course_name = models.CharField(max_length=100,primary_key=True)
+    course_name = models.CharField(max_length=100)
     prerequisites = models.CharField(max_length=256)
     syllabus = models.FileField(upload_to='syllabus_files')
     date = models.DateField(auto_now_add=True)
@@ -23,6 +23,9 @@ class Batch(models.Model):
     end_time = models.TimeField(null=True)
     def __str__(self):
         return f'{self.course} {self.batch_name}'
+    
+    class Meta:
+        verbose_name_plural = "Batches"
 
 class Post(models.Model):
     batch = models.ForeignKey(Batch,on_delete=models.SET_NULL,null=True)
@@ -37,10 +40,9 @@ class Post(models.Model):
 
 
 class Grade(models.Model):
-    batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(auto_now_add=True)
-    assiment_name = models.CharField(max_length=256)
     grading = models.CharField(max_length=10,null=True,blank=True)
     file = models.FileField(upload_to='assignments',null=True,blank=True)
     marks = models.IntegerField(null=True,blank=True)

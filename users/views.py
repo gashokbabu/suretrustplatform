@@ -21,7 +21,7 @@ from django.contrib.auth.models import Group
 class UserViewset(viewsets.ModelViewSet):
     #'list':[IsAdminUser],'retrieve':[IsAdminUser],'update':[IsAuthenticated]
     permission_classes=[IsAuthenticated]
-    permission_classes_by_action = {'create':[AllowAny],'list':[IsAdminUser],'retrieve':[IsAdminUser],'update':[IsAdminUser]}
+    permission_classes_by_action = {'create':[AllowAny]}
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
@@ -98,18 +98,6 @@ def add_to_course(request,name):
         else:
             b[len(b)-1].students.add(request.user.student)
             return Response({'success':f'student is added to {b[len(b)-1].batch_name}'})
-    # for i in b:
-    #     print(len(i.students.all()))
-    #     if len(i.students.all()) == i.limit:
-    #         continue
-    #     else:
-    #         i.students.add(request.user.student)
-    #         return Response({"successmessage":"You were added to the course"})
-    #     print(b[len(b)-1].batch_name)
-    #     x = int(b[len(b)-1].batch_name[6:])
-    #     x+=1
-    #     print(b[len(b)-1].batch_name[0:6]+str(x))
-
     return Response({'error':'something went wrong'})
 
 @api_view(['POST'])
@@ -127,8 +115,9 @@ def get_token(request):
                     regno = Student.objects.get(user=u).registration_no
                     return Response({"token":token.key,'user_id':u.id,'regno':regno})
                 elif request.data['login_as']=='teacher':
-                    group = Group.objects.get(name='teachers')
-                    if u.groups.filter(name=group):
+                    # group = Group.objects.get(name='teachers')
+                    # if u.groups.filter(name=group):
+                    if u.is_staff == True:
                         return Response({'token':token.key})
                     else:
                         return Response({"error":"please register as teacher"})

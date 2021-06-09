@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 class TraineeViewset(viewsets.ModelViewSet):
+    pagination_class = None
     permission_classes=[IsAuthenticated]
     queryset = Student.objects.all()
     serializer_class = TraineeSerializer
@@ -21,3 +22,9 @@ class TraineeViewset(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+class ContactUsViewset(viewsets.ModelViewSet):
+    pagination_class = None
+    permission_classes=[IsAuthenticated]
+    serializer_class = ContactUsSerializer
+    def get_queryset(self):
+        return ContactUs.objects.filter(student__user=self.request.user).order_by('-date')

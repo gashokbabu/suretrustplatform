@@ -7,7 +7,10 @@ router = routers.DefaultRouter()
 router.register(r'course', CourseViewset,basename='Course')
 router.register(r'batch',BatchViewset,basename='Batch')
 router.register(r'posts',PostViewset,basename='Post')
+router.register(r'grades',GradeViewSet,basename='Grade')
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('students-of-batch/',studentsOfBatch),
+    path('assignment-posts/',assignmentPosts),
+    path('',include(router.urls)), 
 ]

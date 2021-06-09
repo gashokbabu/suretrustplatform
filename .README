@@ -34,14 +34,14 @@ http://127.0.0.1:8002/users/get-token/  --post request
  http://127.0.0.1:8000/courses/course/  --get request and pass the teacher token in the url
 
  If a teacher want any inforamtion related to a particualar course
- http://127.0.0.1:8000/courses/course/{course_name}   --get requests with teacher token
+ http://127.0.0.1:8000/courses/course/{course_id}   --get requests with teacher token
  this will return all the information related to the course 
 
  If a teacher wants to update any course
- http://127.0.0.1:8000/courses/course/{course_name}  --put request with teacher token
+ http://127.0.0.1:8000/courses/course/{course_id}  --put request with teacher token
 
  If a teacher want to delete any course
-http://127.0.0.1:8000/courses/course/{course_name}   --delete request with teacher token
+http://127.0.0.1:8000/courses/course/{course_id}   --delete request with teacher token
 
 
 
@@ -69,7 +69,7 @@ http://127.0.0.1:8000/courses/course/{course_name}   --delete request with teach
  if a teacher wants to know all the posts of a peticular batch 
  http://127.0.0.1:8000/courses/posts/             --get request with teachers token
  in body section pass {"batch_id":id of the batch}
- --returns all the post of that batch
+ --this returns all the post of that batch
 
  if a teacher wants to post a new post
  http://127.0.0.1:8000/courses/posts/             --post request with teacher token

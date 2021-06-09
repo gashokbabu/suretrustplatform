@@ -7,12 +7,12 @@ from .models import Post,Grade
 # def create_profile(sender, instance, created, **kwargs):
 #     if created:
 #         if instance.type == 'assignment':
-#             batch1 = instance.batch
-#             students = batch1.students.all()
-#             print(students)
-#             for student1 in students:
-#                 g = Grade(student=student1,batch=batch1,assignment_name=instance.title)
-#                 g.save()
+            # batch1 = instance.batch
+            # students = batch1.students.all()
+            # print(students)
+            # for student1 in students:
+            #     g = Grade(student=student1,batch=batch1,assignment_name=instance.title)
+            #     g.save()
 
 
 # @receiver(post_save, sender=Post)

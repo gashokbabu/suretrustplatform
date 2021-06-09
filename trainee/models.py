@@ -15,3 +15,18 @@ class Student(models.Model):
     
     def __str__(self):
         return f'{self.name}'
+
+
+class ContactUs(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    subject = models.CharField(max_length=256)
+    desctiption = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.subject}'
+
+    
+    class Meta:
+        verbose_name_plural = "Contact Us"
