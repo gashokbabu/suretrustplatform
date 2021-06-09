@@ -34,7 +34,8 @@ class PostViewset(viewsets.ModelViewSet):
     pagination_class=PageNumberPagination
     def get_queryset(self):
         print(self.request.data)
-        return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=6).order_by('-date_time')
+        batch_id = self.request.data['batch_id']
+        return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
