@@ -18,7 +18,8 @@ class Batch(models.Model):
     teacher = models.ForeignKey(Teacher,on_delete=models.SET_NULL,null=True)
     students = models.ManyToManyField(Student)
     limit = models.IntegerField(default=40)
-    date = models.DateField(auto_now_add=True)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField(null=True,blank=True)
     start_time = models.TimeField(null=True)
     end_time = models.TimeField(null=True)
     def __str__(self):
