@@ -17,7 +17,10 @@ class CourseViewset(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     pagination_class=None
     def get_queryset(self):
-        return Course.objects.filter(batch__teacher__user=self.request.user).distinct()
+        if self.request.user.is_staff:
+            return Course.objects.filter(batch__teacher__user=self.request.user).distinct()
+        else:
+            return Course.objects.filter(batch__students=self.request.user.student).distinct()
 
 class BatchViewset(viewsets.ModelViewSet):
     permission_classes=[TrainerAccessPermission|ReadOnly]
@@ -25,17 +28,22 @@ class BatchViewset(viewsets.ModelViewSet):
     pagination_class=None
     def get_queryset(self):
         user = self.request.user
-        course_id = self.request.data['course_id']
-        return Batch.objects.filter(teacher__user=self.request.user,course=course_id)
-
+        course_id = self.request.headers['course-id']
+        course_id = int(course_id)
+        if self.request.user.is_staff:
+            return Batch.objects.filter(teacher__user=self.request.user,course__id=course_id)
+        else:
+            return Batch.objects.filter(batch__students=self.request.user.student,course=course_id)
 class PostViewset(viewsets.ModelViewSet):
     permission_classes=[TrainerAccessPermission|ReadOnly]
     serializer_class = PostSerializer
     pagination_class=PageNumberPagination
     def get_queryset(self):
-        print(self.request.data)
-        batch_id = self.request.data['batch_id']
-        return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
+        batch_id = self.request.headers['batch-id']
+        if self.request.user.is_staff:
+            return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
+        else:
+            return Post.objects.filter(batch__students=self.request.user.student,batch__id=batch_id).order_by('-date_time')
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
