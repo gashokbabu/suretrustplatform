@@ -118,11 +118,9 @@ def get_token(request):
                     # group = Group.objects.get(name='teachers')
                     # if u.groups.filter(name=group):
                     if u.is_staff == True:
-                        return Response({'token':token.key})
+                        return Response({'token':token.key,'teacher_id':token.user.id})
                     else:
-                        return Response({"error":"please register as teacher"})
-
-                    
+                        return Response({"error":"please register as teacher"})                    
             else:
                 return Response({"error":"password incorrect"})
         else:
