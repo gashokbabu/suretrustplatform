@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import TrainerAccessPermission
 
 class TrainerViewset(viewsets.ModelViewSet):
+    pagination_class = None
     permission_classes=(TrainerAccessPermission,)
     queryset = Teacher.objects.all()
     serializer_class = TrainerSerializer
