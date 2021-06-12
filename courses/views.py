@@ -69,14 +69,17 @@ class GradeViewSet(viewsets.ModelViewSet):
         return Grade.objects.filter(post__id=post_id).order_by('-date')
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([TrainerAccessPermission])
 def studentsOfBatch(request):
-    batch_id = request.data['batch_id']
-    batch=Batch.objects.get(id=batch_id)
-    students = batch.students.all()
-    serializer = TraineeSerializer(students,many=True)
-    return Response(serializer.data)
+    if request.method == 'POST':
+        batch_id = request.data['batch_id']
+        batch=Batch.objects.get(id=batch_id)
+        students = batch.students.all()
+        serializer = TraineeSerializer(students,many=True)
+        return Response(serializer.data)
+    else:
+        return Response({'error':'only post request is allowed'})
 
 
 @api_view(['GET'])

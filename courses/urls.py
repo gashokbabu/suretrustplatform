@@ -12,5 +12,5 @@ router.register(r'grades',GradeViewSet,basename='Grade')
 urlpatterns = [
     path('students-of-batch/',studentsOfBatch),
     path('assignment-posts/',assignmentPosts),
-    path('',include(router.urls)), 
+    path('',include(router.urls)),
 ]
