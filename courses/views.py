@@ -42,7 +42,7 @@ class PostViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_staff:
             batch_id = self.request.headers['batch-id']
-            return Post.objects.get(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
+            return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
         else:
             course_id = self.request.headers['course-id']
             batch_id = Batch.objects.filter(students__user=self.request.user)[0]
