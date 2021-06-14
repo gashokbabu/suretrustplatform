@@ -12,6 +12,7 @@ from trainer.permissions import TrainerAccessPermission,ReadOnly
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from trainee.serializers import TraineeSerializer
+from rest_framework.parsers import FileUploadParser
 class CourseViewset(viewsets.ModelViewSet):
     permission_classes=[TrainerAccessPermission|ReadOnly]
     serializer_class = CourseSerializer
@@ -39,24 +40,27 @@ class PostViewset(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     pagination_class=PageNumberPagination
     def get_queryset(self):
-        batch_id = self.request.headers['batch-id']
         if self.request.user.is_staff:
+            batch_id = self.request.headers['batch-id']
             return Post.objects.filter(batch__teacher__user=self.request.user,batch__id=batch_id).order_by('-date_time')
         else:
-            return Post.objects.filter(batch__students=self.request.user.student,batch__id=batch_id).order_by('-date_time')
+            course_id = self.request.headers['course-id']
+            batch_id = Batch.objects.filter(students__user=self.request.user)[0]
+            print(batch_id)
+            return Post.objects.filter(batch__students=self.request.user.student,batch=batch_id).order_by('-date_time')
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        print(serializer.data)
-        post = Post.objects.get(id=serializer.data['id'])
-        batch1 = Batch.objects.get(id=serializer.data['batch'])
-        students = batch1.students.all()
-        print(students)
-        for student1 in students:
-            g = Grade(student=student1,post=post)
-            g.save()
+        if serializer.data['type'].lower() == 'assignment':
+            post = Post.objects.get(id=serializer.data['id'])
+            batch1 = Batch.objects.get(id=serializer.data['batch'])
+            students = batch1.students.all()
+            print(students)
+            for student1 in students:
+                g = Grade(student=student1,post=post)
+                g.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class GradeViewSet(viewsets.ModelViewSet):
@@ -65,7 +69,7 @@ class GradeViewSet(viewsets.ModelViewSet):
     serializer_class = GradeSerializer
     def get_queryset(self):
         user = self.request.user
-        post_id = self.request.data['post_id']
+        post_id = self.request.headers['post-id']
         return Grade.objects.filter(post__id=post_id).order_by('-date')
 
 

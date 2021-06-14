@@ -79,6 +79,7 @@ http://127.0.0.1:8000/courses/course/{course_id}   --delete request with teacher
  body data is
  {
     "title":"your title",
+    "type":"assignment or meterial or announcement"
     "content":"your content",
     "file":"optional",
     "batch":batch_id
