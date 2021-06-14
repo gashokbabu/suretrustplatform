@@ -47,5 +47,7 @@ class Grade(models.Model):
     grading = models.CharField(max_length=10,null=True,blank=True)
     file = models.FileField(upload_to='assignments',null=True,blank=True)
     marks = models.IntegerField(null=True,blank=True)
-    def _str_(self):
-        return self.assiment_name
+
+
+    def __str__(self):
+        return f'{self.post.title}'

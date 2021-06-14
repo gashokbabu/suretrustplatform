@@ -18,8 +18,14 @@ class BatchAdmin(admin.ModelAdmin):
     search_fields = ('batch_name','course')
     list_per_page = 10
 
+class GradeAdmin(admin.ModelAdmin):
+    list_display = ['id','post','date','grading']
+    list_filter = ('post__batch','post__batch__course','post__batch__teacher')
+    search_fields = ()
+    list_per_page = 10
+
 
 admin.site.register(Course,CourseAdmin)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Batch,BatchAdmin)
-admin.site.register(Grade)
+admin.site.register(Grade,GradeAdmin)
