@@ -164,7 +164,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'course-id',
     'batch-id',
-    'multipart/form-data'
 ]
 
 

@@ -49,8 +49,12 @@ def postComment(request):
     return redirect("discussion.html", {'batch':batch})
 
 class create_discussion(generics.ListCreateAPIView): # api for the post the api
-    queryset = discussion_Comment.objects.all()
+    pagination_class = None
+    # queryset = discussion_Comment.objects.all()
     serializer_class = discussion_comment_Serializer
+    def get_queryset(self):
+        batch_id = self.request.headers['batch-id']
+        return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')
 
 class view_discussion(APIView): # api for the get request.
     def get(self,request):
