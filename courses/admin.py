@@ -8,7 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['course_name','prerequisites']
+    list_display = ['id','course_name','prerequisites']
     list_filter = ('date',)
     search_fields = ('course_name','prerequisites')
     list_per_page = 10

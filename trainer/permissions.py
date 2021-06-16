@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group
-from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+from rest_framework.permissions import BasePermission, BasePermissionMetaclass, IsAuthenticated, SAFE_METHODS
 class TrainerAccessPermission(BasePermission):
 
     def has_permission(self, request, view):
@@ -15,4 +15,4 @@ class TrainerAccessPermission(BasePermission):
 
 class ReadOnly(BasePermission):
     def has_permission(self, request, view):
-        return request.method in SAFE_METHODS
+        return request.method in ('GET', 'HEAD', 'OPTIONS','PUT')

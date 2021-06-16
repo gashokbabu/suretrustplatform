@@ -11,7 +11,7 @@ router.register(r'', UserViewset)
 urlpatterns = [
     path('your-batches/',yourBatches),
     path('batch-posts/<int:id>/',batch_posts),
-    path('add-to-course/<str:name>/',add_to_course),
+    path('add-to-course/<int:id>/',add_to_course),
     path('get-token/',get_token),
     path('reset_password/',auth_views.PasswordResetView.as_view(template_name = "users/password_reset.html"),name="reset_password"),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name ="users/password_reset_sent.html"),name="password_reset_done"),

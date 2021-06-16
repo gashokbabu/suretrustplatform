@@ -75,18 +75,18 @@ def batch_posts(request,id):
     return Response(serializer.data)
 
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated,])
-def add_to_course(request,name):
+@permission_classes([IsAuthenticated])
+def add_to_course(request,id):
     if request.method == 'POST':
-        course = Course.objects.get(course_name=name)
-        b = course.batch_set.all().order_by('date')
+        course = Course.objects.get(pk=id)
+        b = course.batch_set.all().order_by('start_date')
         serializer = BatchSerializer(b,many=True)
         if len(b) == 0:
             new_batch = Batch.objects.create(course=course,batch_name="Batch-0")
             new_batch.students.add(request.user.student)
             new_batch.save()
             return Response({'message':f'student is added to {new_batch.batch_name}'})
-        elif Batch.objects.filter(students__user=request.user,course__course_name=name).exists():
+        elif Batch.objects.filter(students__user=request.user,course__id=id).exists():
             return Response({"error":"student already enrolled"})
         elif len(b[len(b)-1].students.all()) == b[len(b)-1].limit:
             x = int(b[len(b)-1].batch_name[6:])
