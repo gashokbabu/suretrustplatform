@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 from rest_framework import generics # import generic from django rest_framework
 from discussion.serializers import discussion_comment_Serializer
 from rest_framework.response import Response
-
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -48,17 +49,24 @@ def postComment(request):
             messages.success(request, "Your replay has been posted successfully")
     return redirect("discussion.html", {'batch':batch})
 
-class create_discussion(generics.ListCreateAPIView): # api for the post the api
+# class create_discussion(generics.ListCreateAPIView): # api for the post the api
+#     pagination_class = None
+#     # queryset = discussion_Comment.objects.all()
+#     serializer_class = discussion_comment_Serializer
+#     def get_queryset(self):
+#         batch_id = self.request.headers['batch-id']
+#         return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')
+
+# class view_discussion(APIView): # api for the get request.
+#     def get(self,request):
+#         discussion_form = discussion_Comment.objects.all()
+#         disccusion_view_api = discussion_comment_Serializer(discussion_form, many=True)
+#         return Response(disccusion_view_api.data)
+
+class DiscussionViewset(viewsets.ModelViewSet):
     pagination_class = None
-    # queryset = discussion_Comment.objects.all()
+    permission_classes=[IsAuthenticated]
     serializer_class = discussion_comment_Serializer
     def get_queryset(self):
         batch_id = self.request.headers['batch-id']
         return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')
-
-class view_discussion(APIView): # api for the get request.
-    def get(self,request):
-        discussion_form = discussion_Comment.objects.all()
-        disccusion_view_api = discussion_comment_Serializer(discussion_form, many=True)
-        return Response(disccusion_view_api.data)
-

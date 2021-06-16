@@ -19,7 +19,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.authtoken import views
 from users.views import get_token
-from discussion.views import create_discussion,view_discussion
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -29,8 +28,8 @@ urlpatterns = [
     path('student/',include('trainee.urls')),
     path('courses/',include('courses.urls')),
     path('users/',include('users.urls')),
-    path('discussion/', create_discussion.as_view()),  # this urls can use to add data in th comment
-    path('discussion_view/', view_discussion.as_view()),# to see all the data in the disscussion section
+    path('discussion/',include('discussion.urls')),  # this urls can use to add data in th comment
+    # path('discussion_view/', view_discussion.as_view()),# to see all the data in the disscussion section
 ]
 
 if settings.DEBUG:

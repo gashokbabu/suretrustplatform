@@ -86,7 +86,7 @@ def studentsOfBatch(request):
         return Response({'error':'only post request is allowed'})
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([TrainerAccessPermission])
 def assignmentPosts(request):
     batch_id = request.data['batch_id']
