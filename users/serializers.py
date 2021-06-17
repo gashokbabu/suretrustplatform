@@ -22,3 +22,4 @@ class UserSerializer(serializers.ModelSerializer):
                 setattr(instance,attr,value)  #for remaining things we can use setattr
         instance.save()
         return instance
+

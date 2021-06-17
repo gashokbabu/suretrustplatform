@@ -6,7 +6,7 @@ from django.contrib import messages
 from rest_framework.views import APIView
 #from discussion.serializer import discussion_comment_Serializer # import pizza_choice form seializer file.
 from rest_framework import generics # import generic from django rest_framework
-from discussion.serializers import discussion_comment_Serializer
+from discussion.serializers import discussion_comment_Serializer,discussion_dummy_comment_Serializer
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -66,7 +66,7 @@ def postComment(request):
 class DiscussionViewset(viewsets.ModelViewSet):
     pagination_class = None
     permission_classes=[IsAuthenticated]
-    serializer_class = discussion_comment_Serializer
+    serializer_class = discussion_dummy_comment_Serializer
     def get_queryset(self):
         batch_id = self.request.headers['batch-id']
         return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')

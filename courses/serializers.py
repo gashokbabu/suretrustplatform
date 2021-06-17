@@ -19,7 +19,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class GradeSerializer(serializers.ModelSerializer):
-    student = TraineeSerializer(read_only=True)
+    # student = TraineeSerializer(read_only=True)
     class Meta:
         model = Grade
         fields = '__all__'
