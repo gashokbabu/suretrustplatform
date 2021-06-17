@@ -63,10 +63,22 @@ def postComment(request):
 #         disccusion_view_api = discussion_comment_Serializer(discussion_form, many=True)
 #         return Response(disccusion_view_api.data)
 
-class DiscussionViewset(viewsets.ModelViewSet):
+class DiscussionDummyViewset(viewsets.ModelViewSet):
     pagination_class = None
     permission_classes=[IsAuthenticated]
     serializer_class = discussion_dummy_comment_Serializer
     def get_queryset(self):
         batch_id = self.request.headers['batch-id']
         return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')
+        
+
+
+class DiscussionViewset(viewsets.ModelViewSet):
+    pagination_class = None
+    permission_classes=[IsAuthenticated]
+    serializer_class = discussion_comment_Serializer
+    def get_queryset(self):
+        batch_id = self.request.headers['batch-id']
+        return discussion_Comment.objects.filter(batch=batch_id).order_by('timestamp')
+        
+
