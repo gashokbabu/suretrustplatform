@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import NOT_REQUIRED_DEFAULT
 from .models import *
 from trainee.serializers import TraineeSerializer
 
@@ -19,9 +20,10 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class GradeSerializer(serializers.ModelSerializer):
-    # student = TraineeSerializer(read_only=True)
+    student = TraineeSerializer(read_only=True)
     class Meta:
         model = Grade
         fields = '__all__'
+        
 
         
